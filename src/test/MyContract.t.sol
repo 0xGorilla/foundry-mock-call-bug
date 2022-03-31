@@ -14,17 +14,14 @@ contract MyContractTest is DSTest {
 
     function setUp() public {
         _myContract = new MyContract();
+        vm.etch(_monster, new bytes(0x1));
     }
 
     function testEat() public {
-        // mocking eat doesn't work because doesn't have a return value
-        vm.mockCall(_monster, abi.encodeWithSelector(IMonster.eat.selector, _amount), abi.encode());
         _myContract.runEat(_monster, _amount);
     }
 
-
     function testDrink() public {
-        // mocking drink actually works because it has a return value
         vm.mockCall(_monster, abi.encodeWithSelector(IMonster.drink.selector, _amount), abi.encode(true));
         _myContract.runDrink(_monster, _amount);
     }
